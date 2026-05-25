@@ -1,17 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="./js/script.js" defer></script>
-    <title>Marceline Run</title>
-  </head>
-  <body>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marceline Axe Bass</title>
+
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+<div class="viewport">
     <div class="game-board">
-      <div class="marci-run"></div>
-      <img src="./assets/images/garlic.png" class="garlic">
+
+        <!-- Marceline -->
+        <div class="marci-run"></div>
+
+        <!-- Obstáculos -->
+        <img src="./assets/images/garlic.png"
+             class="garlic"
+             alt="Alho">
+
+        <img src="./assets/images/stake.png"
+             class="stake"
+             alt="Estaca">
+
+        <!-- Menu inicial -->
+        <div class="menu">
+            <h1>Marceline Axe Bass</h1>
+            <p>Pressione qualquer tecla para começar</p>
+        </div>
+
+        <!-- Interface -->
+        <div class="hud">
+
+            <div class="lives">
+                ❤️❤️❤️❤️❤️
+            </div>
+
+            <div class="score">
+                Score: 0
+            </div>
+
+            <div class="phase">
+                Fase 1
+            </div>
+
+        </div>
+
+        <!-- Game Over -->
+        <div class="game-over">
+            GAME OVER
+        </div>
+
     </div>
-  </body>
+</div>
+    <!-- JAVASCRIPT -->
+
+    <!-- Marceline -->
+    <script src="./js/player.js"></script>
+
+    <!-- Colisões -->
+    <script src="./js/collision.js"></script>
+
+    <!-- Inimigos e obstáculos -->
+    <script src="./js/enemies.js"></script>
+
+    <!-- Sons -->
+    <script src="./js/audio.js"></script>
+
+    <!-- Interface -->
+    <script src="./js/ui.js"></script>
+
+    <!-- Teclado -->
+    <script src="./js/controls.js"></script>
+
+    <!-- Loop principal -->
+    <script src="./js/game.js"></script>
+
+</body>
 </html>

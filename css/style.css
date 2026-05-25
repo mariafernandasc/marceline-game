@@ -4,42 +4,87 @@
   box-sizing: border-box;
 }
 
-.game-board{
-  width: 100%;
+/* Debug mode: mostra caixas de colisão */
+.debug-marci {
+  outline: 2px solid lime; /* Marceline em verde */
+}
+
+.debug-obstacle {
+  outline: 2px solid red; /* Obstáculos em vermelho */
+}
+
+.viewport{
+  width: 1000px; /* largura visível */
   height: 500px;
-  border-bottom: 10px solid rgb(42, 171, 70);
+
+  overflow: hidden;
+  margin: 0 auto;
+
+  position: relative;
+}
+
+.game-board{
+  width: 2000px; /* cenário longo */
+  height: 500px;
   margin: 0 auto;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(#5b0f51, #6b3897);
+  background-image: url('../assets/images/background_fase1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.game-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 32px;
+  color: red;
+  text-shadow: 3px 3px 0 black;
+  display: none;
 }
 
 .garlic {
   bottom: 0;
   position: absolute;
   width: 80px;
+  height: 80px; /*altura definida*/
+  left: 900px;
   image-rendering: pixelated;
-  animation: garlic-animation 2s infinite linear;
+}
+
+.stake {
+  bottom: 140px; /*90*/
+  position: absolute;
+  width: 40px;
+  height: 150px; /* altura definida */
+  left: 200px;
+  image-rendering: pixelated;
 }
 
 .marci-run {
   width: 140px;
   height: 140px;
   bottom: 0;
+  left: 0; /* começa no canto esquerdo */
   position: absolute;
   image-rendering: pixelated;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size:contain;
   background-position: bottom;
+  background-image: url('../assets/images/marci-run1.png');
+
 }
 
 .jump {
   animation: jump 600ms ease-in-out;
 }
 
-@keyframes garlic-animation {
-  from { right: -80px; }
-  to { right: 100%; }
+.crouch {
+  animation: crouch 400ms ease-in-out forwards;
 }
 
 @keyframes jump {
@@ -50,4 +95,9 @@
   60% { bottom: 180px; }
   70% { bottom: 170px; }
   100% { bottom: 0; }
+}
+
+@keyframes crouch {
+  0% { transform: scaleY(1); }
+  100% { transform: scaleY(0.7); }
 }
