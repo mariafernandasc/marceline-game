@@ -4,7 +4,7 @@
 
 Jogo de plataforma 2D inspirado na personagem Marceline, da série *Hora de Aventura*. O jogador controla Marceline enquanto ela corre por três fases, enfrenta inimigos icônicos da série, desvia de obstáculos e usa sua guitarra-machado para atacar.
 
-O jogo é desenvolvido inteiramente com **HTML, CSS e JavaScript puro**, sem uso de engines ou canvas — toda a lógica usa manipulação do DOM.
+O jogo é desenvolvido inteiramente com **HTML, CSS e JavaScript puro**.
 
 ---
 
