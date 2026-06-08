@@ -40,7 +40,7 @@ O jogo é desenvolvido inteiramente com **HTML, CSS e JavaScript puro**.
 - **Inimigos com IA**: se movem em direção à Marceline e disparam projéteis
 - **Obstáculos variados**: chão (alho, estaca) e suspensos (sol, tolo — requerem agachar)
 - **Portal de fim de fase** que só abre quando todos os inimigos forem derrotados
-- **Efeitos sonoros** via Web Audio API + suporte a arquivos `.mp3`
+- **Efeitos sonoros** via arquivos `.mp3` e web audio API
 - **Música por fase** (I'm Just Your Problem / Remember You / Everything Stays)
 - **Menu de configurações** para mutar música e efeitos sonoros
 - **Tela de vitória final** ao completar as 3 fases
@@ -51,9 +51,9 @@ O jogo é desenvolvido inteiramente com **HTML, CSS e JavaScript puro**.
 
 | Fase | Cenário | Inimigo | Vidas | Novos obstáculos |
 |------|---------|---------|-------|-----------------|
-| 1 | Floresta | Ricardio | 5 | Alho, Estaca |
-| 2 | Caverna | Hierofante | 7 | + Sol (suspenso) |
-| 3 | Reino dos Vampiros | Imperatriz | 10 | + O Tolo (suspenso) |
+| 1 | Floresta | Ricardio | 10 | Alho, Estaca |
+| 2 | Caverna | Hierofante | 15 | + Sol (suspenso) |
+| 3 | Reino dos Vampiros | Imperatriz | 18 | + O Tolo (suspenso) |
 
 ---
 
