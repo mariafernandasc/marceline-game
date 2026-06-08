@@ -1,20 +1,23 @@
-/* elementos */
-/* ui.js */
+/* ui.js — Interface HUD */
 
-const scoreText = document.querySelector('.score');
-const livesText = document.querySelector('.lives');
-
-function updateScore(score) {
-  scoreText.innerText = `Score: ${score}`;
+function updateLivesUI(value) {
+  const el = document.getElementById('hud-lives');
+  if (el) el.textContent = '❤️'.repeat(Math.max(0, value));
 }
 
-function updateLives(lives) {
+function updateScoreUI(value) {
+  const el = document.getElementById('hud-score');
+  if (el) el.textContent = value;
+}
 
-  let hearts = "";
+function updatePhaseUI(value) {
+  const el = document.getElementById('hud-phase');
+  if (el) el.textContent = 'Fase ' + value;
+}
 
-  for (let i = 0; i < lives; i++) {
-    hearts += "❤️";
-  }
-
-  livesText.innerText = hearts;
+function showDamageFlash() {
+  const flash = document.createElement('div');
+  flash.classList.add('damage-flash');
+  document.body.appendChild(flash);
+  setTimeout(() => flash.remove(), 400);
 }
