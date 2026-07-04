@@ -1,0 +1,9 @@
+body {
+    --primary: green;
+    --space: 4px;
+}
+
+h2 {
+    color: var(--primary);
+    margin-top: calc(var(--space) * 2);
+}

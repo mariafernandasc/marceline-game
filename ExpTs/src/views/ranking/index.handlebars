@@ -1,0 +1,33 @@
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">🏆 Ranking — Top 10</h2>
+
+  {{#if ranking.length}}
+    <table class="table table-striped table-bordered text-center">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>Jogador</th>
+          <th>Pontuação</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each ranking}}
+          <tr>
+            <td>
+              {{#if (eq this.position 1)}}🥇{{/if}}
+              {{#if (eq this.position 2)}}🥈{{/if}}
+              {{#if (eq this.position 3)}}🥉{{/if}}
+              {{#unless (lte this.position 3)}}{{this.position}}{{/unless}}
+            </td>
+            <td>{{this.fullname}}</td>
+            <td><strong>{{this.score}}</strong></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <div class="alert alert-info text-center">
+      Nenhuma partida registrada ainda. <a href="/">Jogue agora!</a>
+    </div>
+  {{/if}}
+</div>

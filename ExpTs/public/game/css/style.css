@@ -1,0 +1,940 @@
+/* ==========================================
+   MARCELINE AXE BASS — style.css
+   ========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --purple: #6a0dad;
+  --dark-purple: #3b0066;
+  --pink: #ff69b4;
+  --teal: #00cec9;
+  --red: #e84393;
+  --yellow: #ffd700;
+  --bg-dark: #0a0010;
+  --text: #f0e6ff;
+  --hud-bg: rgba(10, 0, 20, 0.88);
+  --hud-border: #7b2fbe;
+
+  /*
+   * --ground-level: distância em px do fundo da tela até a superfície do chão.*/
+  --ground-level: 131px;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-dark);
+  font-family: 'Press Start 2P', monospace;
+  color: var(--text);
+  overflow: hidden;
+  user-select: none;
+}
+
+/* ==========================================
+   TELAS (SCREENS)
+   ========================================== */
+
+.screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* A tela de jogo não centraliza — empilha HUD em cima, área de jogo embaixo */
+#screen-game {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.hidden { display: none !important; }
+
+/* ==========================================
+   MENU INICIAL
+   ========================================== */
+
+#screen-menu {
+  background: radial-gradient(ellipse at 50% 40%, #2a005a 0%, #0a0010 70%);
+}
+
+#screen-menu::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(106,13,173,0.04) 2px, rgba(106,13,173,0.04) 4px);
+  pointer-events: none;
+}
+
+.menu-box {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  animation: fadeInDown 0.6s ease;
+}
+
+.game-title {
+  font-size: clamp(24px, 4vw, 48px);
+  line-height: 1.4;
+  color: var(--pink);
+  text-shadow:
+    0 0 20px var(--pink),
+    0 0 40px var(--purple),
+    4px 4px 0 #000;
+  letter-spacing: 2px;
+}
+
+.game-title span {
+  color: var(--teal);
+  text-shadow:
+    0 0 20px var(--teal),
+    4px 4px 0 #000;
+}
+
+.menu-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 260px;
+}
+
+.menu-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  padding: 14px 28px;
+  background: transparent;
+  border: 2px solid var(--purple);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+
+.menu-btn:hover,
+.menu-btn.selected {
+  background: var(--purple);
+  color: #fff;
+  text-shadow: 0 0 8px var(--pink);
+  box-shadow: 0 0 16px var(--purple);
+}
+
+.menu-btn.danger {
+  border-color: var(--red);
+}
+.menu-btn.danger:hover {
+  background: var(--red);
+  box-shadow: 0 0 16px var(--red);
+}
+
+.menu-hint {
+  font-size: 9px;
+  color: rgba(240, 230, 255, 0.4);
+  margin-top: -16px;
+}
+
+/* ==========================================
+   CONFIGURAÇÕES
+   ========================================== */
+
+.settings-box {
+  max-width: 480px;
+  width: 90%;
+  background: rgba(20, 0, 40, 0.97);
+  border: 2px solid var(--purple);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  box-shadow: 0 0 40px rgba(106,13,173,0.4);
+  animation: fadeInDown 0.4s ease;
+}
+
+.settings-box h2 {
+  font-size: 20px;
+  color: var(--pink);
+  text-shadow: 0 0 12px var(--pink);
+}
+
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 24px;
+}
+
+.setting-label {
+  font-size: 12px;
+  color: var(--text);
+  letter-spacing: 1px;
+}
+
+.toggle-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  width: 72px;
+  padding: 10px 0;
+  text-align: center;
+  border: 2px solid var(--teal);
+  background: rgba(0, 206, 201, 0.15);
+  color: var(--teal);
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+}
+
+.toggle-btn.off {
+  border-color: rgba(200,170,255,0.3);
+  background: rgba(255,255,255,0.05);
+  color: rgba(200,170,255,0.35);
+  text-shadow: none;
+}
+
+.toggle-btn:not(.off) {
+  box-shadow: 0 0 12px rgba(0,206,201,0.4);
+  text-shadow: 0 0 8px var(--teal);
+}
+
+/* ==========================================
+   TELA DE INSTRUÇÕES
+   ========================================== */
+
+#screen-instructions {
+  background: radial-gradient(ellipse at 50% 40%, #1a003a 0%, #0a0010 80%);
+}
+
+.instructions-box {
+  max-width: 700px;
+  width: 90%;
+  background: rgba(20, 0, 40, 0.95);
+  border: 2px solid var(--purple);
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-shadow: 0 0 40px rgba(106,13,173,0.4);
+  animation: fadeInDown 0.4s ease;
+}
+
+.instructions-box h2 {
+  font-size: 20px;
+  color: var(--pink);
+  text-shadow: 0 0 12px var(--pink);
+  text-align: center;
+}
+
+.inst-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.inst-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  text-align: center;
+}
+
+.key {
+  background: rgba(106,13,173,0.5);
+  border: 1px solid var(--purple);
+  padding: 6px 10px;
+  font-size: 10px;
+  color: var(--teal);
+  letter-spacing: 0;
+}
+
+.inst-section {
+  font-size: 10px;
+  line-height: 2;
+  color: rgba(240,230,255,0.8);
+}
+
+.inst-section h3 {
+  color: var(--teal);
+  margin-bottom: 6px;
+  font-size: 11px;
+}
+
+/* ==========================================
+   HUD — barra superior
+   ========================================== */
+
+.hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(10,0,30,0.98) 0%, rgba(20,0,50,0.94) 100%);
+  border-bottom: 3px solid var(--hud-border);
+  box-shadow: 0 4px 24px rgba(106,13,173,0.5);
+  padding: 0 24px;
+  height: 70px;
+  position: relative;
+  z-index: 5;
+}
+
+/* Separadores verticais entre painéis */
+.hud::before,
+.hud::after {
+  content: '';
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  background: rgba(123,47,190,0.45);
+}
+.hud::before { left: 33.33%; }
+.hud::after  { left: 66.66%; }
+
+.hud-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 5px;
+}
+
+.hud-label {
+  font-size: 9px;
+  color: rgba(200,170,255,0.7);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.lives {
+  font-size: 20px;
+  letter-spacing: 4px;
+  line-height: 1;
+  filter: drop-shadow(0 0 6px #ff4080);
+}
+
+.score {
+  font-size: 22px;
+  color: var(--yellow);
+  text-shadow: 0 0 12px var(--yellow), 2px 2px 0 #000;
+  letter-spacing: 2px;
+}
+
+.phase {
+  font-size: 18px;
+  color: var(--teal);
+  text-shadow: 0 0 12px var(--teal), 2px 2px 0 #000;
+  letter-spacing: 1px;
+}
+
+/* ==========================================
+   VIEWPORT E GAME BOARD
+   ========================================== */
+
+.viewport {
+  width: 100%;
+  height: calc(100vh - 70px);   /* 70px = altura do HUD */
+  overflow: hidden;
+  position: relative;
+}
+
+.game-board {
+  width: 6000px;
+  height: 100%;
+  position: relative;
+  background-image: url('/game/assets/images/background_fase1.png');
+  background-size: cover;
+  background-position: bottom center;
+  background-repeat: no-repeat;
+}
+
+/* Chão */
+.ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: rgba(0,0,0,0);
+}
+
+/* ==========================================
+   MARCELINE
+   ========================================== */
+
+.marci-run {
+  width: 140px;
+  height: 140px;
+  position: absolute;
+  bottom: var(--ground-level);
+  left: 0;
+  image-rendering: pixelated;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom center;
+  background-image: url('/game/assets/images/marci-run1.png');
+  transition: filter 0.1s;
+  z-index: 3;
+}
+
+.marci-run.invincible {
+  animation: blink 0.1s infinite;
+}
+
+.marci-run.crouching {
+  height: 80px;
+  bottom: var(--ground-level);
+}
+
+/* ==========================================
+   OBSTÁCULOS
+   ========================================== */
+
+.garlic,
+.stake,
+.sun,
+.fool {
+  position: absolute;
+  image-rendering: pixelated;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 2;
+}
+
+.garlic {
+  width: 60px;
+  height: 60px;
+  bottom: var(--ground-level);
+  background-image: url('/game/assets/images/garlic.png');
+}
+
+.stake {
+  width: 55px;
+  height: 80px;
+  bottom: var(--ground-level);
+  background-image: url('/game/assets/images/stake.png');
+}
+
+/* Obstáculo suspenso — marci precisa se abaixar */
+.sun {
+  width: 80px;
+  height: 80px;
+  bottom: calc(var(--ground-level) + 100px); /* flutua acima da cabeça */
+  background-image: url('/game/assets/images/sun.png');
+  animation: float 2s ease-in-out infinite;
+}
+
+.fool {
+  width: 80px;
+  height: 90px;
+  bottom: calc(var(--ground-level) + 95px);
+  background-image: url('/game/assets/images/fool.png');
+  animation: float 2.4s ease-in-out infinite;
+}
+
+/* ==========================================
+   INIMIGOS
+   ========================================== */
+
+.enemy {
+  position: absolute;
+  image-rendering: pixelated;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  z-index: 2;
+}
+
+.ricardio {
+  width: 180px;
+  height: 130px;
+  bottom: var(--ground-level);
+  background-image: url('/game/assets/images/ricardio.png');
+}
+
+.hierofante {
+  width: 190px;
+  height: 200px;
+  bottom: var(--ground-level);
+  background-image: url('/game/assets/images/hierofante.png');
+}
+
+.imperatriz {
+  width: 170px;
+  height: 240px;
+  bottom: var(--ground-level);
+  background-image: url('/game/assets/images/imperatriz.png');
+}
+
+/* Barra de vida */
+.health-bar {
+  position: absolute;
+  top: -14px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: #222;
+  border: 1px solid #000;
+  border-radius: 2px;
+}
+
+.health-bar-inner {
+  height: 100%;
+  background: linear-gradient(90deg, #e84393, #ff69b4);
+  width: 100%;
+  transition: width 0.25s ease;
+  border-radius: 2px;
+}
+
+/* Label de vida sobre inimigo */
+.enemy-lives-label {
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 7px;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+  white-space: nowrap;
+}
+
+/* ==========================================
+   OVERLAYS (PAUSE / GAMEOVER / VICTORY)
+   ========================================== */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(3px);
+  z-index: 20;
+}
+
+.pause-box,
+.gameover-box,
+.victory-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 40px;
+  background: rgba(10, 0, 20, 0.97);
+  border: 2px solid var(--purple);
+  box-shadow: 0 0 50px rgba(106,13,173,0.6);
+  animation: popIn 0.25s ease;
+  min-width: 320px;
+  text-align: center;
+}
+
+.pause-box h2 {
+  font-size: 22px;
+  color: var(--teal);
+  text-shadow: 0 0 12px var(--teal);
+}
+
+.pause-instructions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+.gameover-title {
+  font-size: 30px;
+  color: var(--red);
+  text-shadow: 0 0 20px var(--red), 4px 4px 0 #000;
+  animation: glitch 1s infinite;
+}
+
+.gameover-score {
+  font-size: 11px;
+  color: var(--yellow);
+}
+
+.gameover-highscore {
+  font-size: 10px;
+  color: var(--teal);
+  text-shadow: 0 0 8px var(--teal);
+}
+
+.victory-text {
+  font-size: 22px;
+  color: var(--yellow);
+  text-shadow: 0 0 20px var(--yellow), 3px 3px 0 #000;
+  line-height: 1.6;
+}
+
+.victory-sub {
+  font-size: 10px;
+  color: rgba(240,230,255,0.6);
+}
+
+/* ==========================================
+   ANIMAÇÕES
+   ========================================== */
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes jump {
+  0%   { bottom: var(--ground-level); }
+  25%  { bottom: calc(var(--ground-level) + 140px); }
+  50%  { bottom: calc(var(--ground-level) + 160px); }
+  75%  { bottom: calc(var(--ground-level) + 100px); }
+  100% { bottom: var(--ground-level); }
+}
+
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+@keyframes glitch {
+  0%,100% { text-shadow: 0 0 20px var(--red), 4px 4px 0 #000; }
+  25%      { text-shadow: -3px 0 var(--teal), 4px 4px 0 #000; }
+  75%      { text-shadow: 3px 0 var(--pink), 4px 4px 0 #000; }
+}
+
+.marci-run.jump {
+  animation: jump 650ms ease-in-out forwards;
+}
+
+/* ==========================================
+   EFEITO DE DANO NA TELA
+   ========================================== */
+
+.damage-flash {
+  position: fixed;
+  inset: 0;
+  background: rgba(232, 67, 147, 0.25);
+  pointer-events: none;
+  z-index: 100;
+  animation: flashOut 0.4s ease forwards;
+}
+
+@keyframes flashOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ==========================================
+   ATAQUE — efeito visual
+   ========================================== */
+
+.attack-effect {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.8), transparent);
+  pointer-events: none;
+  animation: attackBurst 0.3s ease forwards;
+  z-index: 10;
+}
+
+@keyframes attackBurst {
+  from { transform: scale(0.5); opacity: 1; }
+  to   { transform: scale(2); opacity: 0; }
+}
+
+/* Projétil do inimigo */
+.enemy-projectile {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ff9999, #ff0000 50%, #880000);
+  box-shadow:
+    0 0 8px  #ff0000,
+    0 0 16px #ff0000,
+    0 0 30px #cc0000,
+    0 0 50px rgba(255,0,0,0.4);
+  z-index: 4;
+  pointer-events: none;
+  animation: projectilePulse 0.25s ease-in-out infinite alternate;
+}
+
+@keyframes projectilePulse {
+  from {
+    transform: scale(1);
+    box-shadow: 0 0 8px #ff0000, 0 0 20px #ff0000, 0 0 40px rgba(255,0,0,0.5);
+  }
+  to {
+    transform: scale(1.25);
+    box-shadow: 0 0 14px #ff4444, 0 0 30px #ff0000, 0 0 60px rgba(255,0,0,0.7);
+  }
+}
+
+/* ==========================================
+   VITÓRIA FINAL
+   ========================================== */
+
+#overlay-final-victory {
+  background: radial-gradient(ellipse at 50% 40%, rgba(60,0,120,0.97) 0%, rgba(5,0,15,0.99) 70%);
+  z-index: 50;
+}
+
+.final-victory-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  padding: 48px 52px;
+  background: rgba(10, 0, 25, 0.97);
+  border: 2px solid var(--purple);
+  box-shadow:
+    0 0 40px rgba(106,13,173,0.7),
+    0 0 80px rgba(106,13,173,0.3),
+    inset 0 0 30px rgba(106,13,173,0.1);
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  max-width: 560px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+}
+
+/* Canto decorativo */
+.final-victory-box::before,
+.final-victory-box::after {
+  content: '✦';
+  position: absolute;
+  font-size: 18px;
+  color: var(--purple);
+  opacity: 0.5;
+}
+.final-victory-box::before { top: 12px; left: 16px; }
+.final-victory-box::after  { bottom: 12px; right: 16px; }
+
+.fv-stars {
+  font-size: 26px;
+  color: var(--yellow);
+  text-shadow: 0 0 16px var(--yellow);
+  letter-spacing: 12px;
+  animation: starPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes starPulse {
+  0%,100% { text-shadow: 0 0 16px var(--yellow); opacity: 1; }
+  50%      { text-shadow: 0 0 32px var(--yellow), 0 0 60px orange; opacity: 0.85; }
+}
+
+.fv-title {
+  font-size: 32px;
+  color: var(--yellow);
+  text-shadow: 0 0 24px var(--yellow), 3px 3px 0 #000;
+  animation: titleShimmer 3s ease-in-out infinite;
+  line-height: 1.2;
+}
+
+@keyframes titleShimmer {
+  0%,100% { color: var(--yellow); }
+  50%      { color: #fff8a0; text-shadow: 0 0 40px var(--yellow), 3px 3px 0 #000; }
+}
+
+.fv-subtitle {
+  font-size: 11px;
+  color: rgba(200,170,255,0.8);
+  line-height: 1.8;
+}
+
+.fv-divider {
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--purple), transparent);
+}
+
+.fv-stats {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.fv-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 110px;
+}
+
+.fv-stat-label {
+  font-size: 8px;
+  color: rgba(200,170,255,0.6);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.fv-stat-value {
+  font-size: 20px;
+  color: var(--teal);
+  text-shadow: 0 0 12px var(--teal);
+}
+
+.fv-message {
+  font-size: 10px;
+  color: rgba(240,230,255,0.6);
+  line-height: 2;
+  font-style: italic;
+  border-left: 2px solid var(--purple);
+  padding-left: 14px;
+  text-align: left;
+}
+
+.fv-buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.fv-hint {
+  font-size: 8px;
+  color: rgba(200,170,255,0.35);
+  letter-spacing: 1px;
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+/* ==========================================
+   SCROLLBAR OCULTA
+   ========================================== */
+
+.viewport::-webkit-scrollbar { display: none; }
+.viewport { scrollbar-width: none; }
+
+/* ==========================================
+   PORTAL DE FIM DE FASE
+   ========================================== */
+
+.phase-portal {
+  position: absolute;
+  bottom: var(--ground-level);
+  width: 80px;
+  height: 160px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Arco do portal */
+.phase-portal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 40px 40px 0 0;
+  background: radial-gradient(ellipse at 50% 60%, #9b59ff 0%, #4400cc 40%, transparent 75%);
+  box-shadow:
+    0 0 20px #7b2fbe,
+    0 0 40px #5500ff,
+    inset 0 0 20px rgba(150,80,255,0.5);
+  animation: portalPulse 1.6s ease-in-out infinite;
+}
+
+/* Partículas flutuantes dentro do portal */
+.phase-portal::after {
+  content: '✦ ✦ ✦';
+  position: absolute;
+  top: 30%;
+  font-size: 12px;
+  color: rgba(255,255,255,0.8);
+  text-shadow: 0 0 8px #fff;
+  animation: portalStars 2s ease-in-out infinite;
+  letter-spacing: 4px;
+}
+
+/* Moldura / colunas do portal */
+.portal-frame {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.portal-frame::before,
+.portal-frame::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 12px;
+  height: 100%;
+  background: linear-gradient(180deg, #7b2fbe, #3b0066);
+  border-radius: 4px;
+  box-shadow: 0 0 10px #7b2fbe;
+}
+.portal-frame::before { left: 0; }
+.portal-frame::after  { right: 0; }
+
+/* Label "CHEGADA" acima do portal */
+.portal-label {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--yellow);
+  text-shadow: 0 0 8px var(--yellow), 1px 1px 0 #000;
+  white-space: nowrap;
+  animation: portalPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes portalPulse {
+  0%,100% { opacity: 1;   filter: brightness(1); }
+  50%      { opacity: 0.7; filter: brightness(1.5); }
+}
+
+@keyframes portalStars {
+  0%,100% { transform: translateY(0)   opacity: 1; }
+  50%      { transform: translateY(-8px); opacity: 0.5; }
+}
+
+/* Quando Marci entra no portal — flash branco */
+@keyframes portalEnter {
+  0%   { opacity: 0; }
+  30%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.portal-flash {
+  position: fixed;
+  inset: 0;
+  background: white;
+  pointer-events: none;
+  z-index: 200;
+  animation: portalEnter 0.6s ease forwards;
+}

@@ -1,0 +1,40 @@
+{
+  "name": "express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --watch src --ext js,ts,json,handlebars --exec tsx src/index.ts",
+    "sass": "sass public/scss/main.scss public/css/main.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@prisma/adapter-mariadb": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "bcrypt": "^5.1.1",
+    "bootstrap": "^5.3.8",
+    "dotenv": "^17.4.2",
+    "envalid": "^8.1.1",
+    "express": "^5.2.1",
+    "express-handlebars": "^9.0.1",
+    "express-session": "^1.18.1",
+    "lorem-ipsum": "^2.0.8",
+    "mariadb": "^3.5.3",
+    "morgan": "^1.10.1",
+    "sass": "^1.99.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/express": "^5.0.6",
+    "@types/express-session": "^1.18.1",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^25.7.0",
+    "nodemon": "^3.1.14",
+    "prisma": "^7.8.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  }
+}

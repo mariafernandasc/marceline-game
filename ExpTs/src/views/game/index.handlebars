@@ -1,0 +1,158 @@
+<!-- View do Jogo — acessível apenas por usuários logados -->
+
+<link rel="stylesheet" href="/game/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<!-- ========== MENU INICIAL ========== -->
+<div class="screen" id="screen-menu">
+  <div class="menu-box">
+    <h1 class="game-title">Marceline<br><span>Axe Bass</span></h1>
+    <div class="menu-options">
+      <button class="menu-btn selected" id="btn-play" onclick="startGame()">▶ Jogar</button>
+      <button class="menu-btn" id="btn-instructions" onclick="showInstructions()">📖 Instruções</button>
+      <button class="menu-btn" id="btn-settings" onclick="showSettings()">⚙ Configurações</button>
+    </div>
+    <p class="menu-hint">Use ↑↓ para navegar · Enter para confirmar</p>
+  </div>
+</div>
+
+<!-- ========== INSTRUÇÕES ========== -->
+<div class="screen hidden" id="screen-instructions">
+  <div class="instructions-box">
+    <h2>Como Jogar</h2>
+    <div class="inst-grid">
+      <div class="inst-item"><span class="key">←→</span><span>Mover</span></div>
+      <div class="inst-item"><span class="key">↑</span><span>Pular</span></div>
+      <div class="inst-item"><span class="key">↓</span><span>Abaixar</span></div>
+      <div class="inst-item"><span class="key">ESPAÇO</span><span>Atacar</span></div>
+      <div class="inst-item"><span class="key">P / ESC</span><span>Pausar</span></div>
+      <div class="inst-item"><span class="key">ENTER</span><span>Confirmar</span></div>
+    </div>
+    <div class="inst-section">
+      <h3>Obstáculos</h3>
+      <p>🧄 <b>Alho</b>, 🪵 <b>Estaca</b>, ☀️ <b>Sol</b> e 🃏 <b>O Tolo</b></p>
+    </div>
+    <div class="inst-section">
+      <h3>Inimigos</h3>
+      <p>Use <b>ESPAÇO</b> ao colidir com o inimigo para atacar (1 dano por golpe).</p>
+    </div>
+    <button class="menu-btn" onclick="backToMenu()">← Voltar</button>
+  </div>
+</div>
+
+<!-- ========== CONFIGURAÇÕES ========== -->
+<div class="screen hidden" id="screen-settings">
+  <div class="settings-box">
+    <h2>⚙ Configurações</h2>
+    <div class="setting-row">
+      <span class="setting-label">🎵 Música</span>
+      <button class="toggle-btn" id="toggle-music" onclick="toggleMusic()">ON</button>
+    </div>
+    <div class="setting-row">
+      <span class="setting-label">🔊 Efeitos Sonoros</span>
+      <button class="toggle-btn" id="toggle-sfx" onclick="toggleSfx()">ON</button>
+    </div>
+    <button class="menu-btn" onclick="backToMenu()">← Voltar</button>
+  </div>
+</div>
+
+<!-- ========== TELA DE JOGO ========== -->
+<div class="screen hidden" id="screen-game">
+  <div class="hud">
+    <div class="hud-panel">
+      <div class="hud-label">Vidas</div>
+      <div class="lives" id="hud-lives">❤️❤️❤️❤️❤️</div>
+    </div>
+    <div class="hud-panel">
+      <div class="hud-label">Fase</div>
+      <div class="phase" id="hud-phase">Fase 1</div>
+    </div>
+    <div class="hud-panel">
+      <div class="hud-label">Pontos</div>
+      <div class="score" id="hud-score">0</div>
+    </div>
+  </div>
+
+  <div class="viewport" id="viewport">
+    <div class="game-board" id="game-board">
+      <div class="ground"></div>
+      <div class="marci-run" id="marci"></div>
+    </div>
+  </div>
+
+  <!-- PAUSE -->
+  <div class="overlay hidden" id="overlay-pause">
+    <div class="pause-box">
+      <h2>⏸ PAUSADO</h2>
+      <div class="pause-instructions">
+        <div class="inst-item"><span class="key">←→</span><span>Mover</span></div>
+        <div class="inst-item"><span class="key">↑</span><span>Pular</span></div>
+        <div class="inst-item"><span class="key">↓</span><span>Abaixar</span></div>
+        <div class="inst-item"><span class="key">ESPAÇO</span><span>Atacar</span></div>
+      </div>
+      <button class="menu-btn" onclick="resumeGame()">▶ Continuar</button>
+      <button class="menu-btn danger" onclick="goToMenu()">✖ Menu</button>
+    </div>
+  </div>
+
+  <!-- GAME OVER -->
+  <div class="overlay hidden" id="overlay-gameover">
+    <div class="gameover-box">
+      <h2 class="gameover-title">GAME OVER</h2>
+      <p class="gameover-score">Pontuação: <span id="final-score">0</span></p>
+      <p class="gameover-highscore">🏆 Recorde: <span id="final-highscore">0</span></p>
+      <button class="menu-btn" onclick="restartGame()">↺ Tentar Novamente</button>
+      <button class="menu-btn" onclick="goToMenu()">⌂ Menu</button>
+    </div>
+  </div>
+
+  <!-- VITÓRIA DE FASE -->
+  <div class="overlay hidden" id="overlay-victory">
+    <div class="victory-box">
+      <div class="victory-text" id="victory-text">🎉 Fase 1 concluída!</div>
+      <p class="victory-sub" id="victory-sub">Preparando próxima fase...</p>
+    </div>
+  </div>
+
+  <!-- VITÓRIA FINAL -->
+  <div class="overlay hidden" id="overlay-final-victory">
+    <div class="final-victory-box">
+      <div class="fv-stars">★ ★ ★</div>
+      <h2 class="fv-title">Você Venceu!</h2>
+      <p class="fv-subtitle">Marceline salvou o dia mais uma vez.</p>
+      <div class="fv-divider"></div>
+      <div class="fv-stats">
+        <div class="fv-stat">
+          <span class="fv-stat-label">Pontuação Final</span>
+          <span class="fv-stat-value" id="fv-score">0</span>
+        </div>
+        <div class="fv-stat">
+          <span class="fv-stat-label">Vidas Restantes</span>
+          <span class="fv-stat-value" id="fv-lives">❤️</span>
+        </div>
+        <div class="fv-stat">
+          <span class="fv-stat-label">Fases Completas</span>
+          <span class="fv-stat-value">3 / 3</span>
+        </div>
+      </div>
+      <div class="fv-divider"></div>
+      <p class="fv-message" id="fv-message"></p>
+      <div class="fv-buttons">
+        <button class="menu-btn" onclick="lastPhase = 1; restartGame()">↺ Jogar Novamente</button>
+        <button class="menu-btn" onclick="goToMenu()">⌂ Menu Principal</button>
+      </div>
+      <p class="fv-hint">Pressione Enter para jogar novamente</p>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts do jogo -->
+<script src="/game/js/ui.js"></script>
+<script src="/game/js/player.js"></script>
+<script src="/game/js/collision.js"></script>
+<script src="/game/js/considzenyte.js"></script>
+<script src="/game/js/victory.js"></script>
+<script src="/game/js/audio.js"></script>
+<script src="/game/js/controls.js"></script>
+<script src="/game/js/game.js"></script>
