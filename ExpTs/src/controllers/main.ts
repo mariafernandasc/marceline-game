@@ -8,7 +8,7 @@ const index = (req: Request, res: Response) => {
 }
 
 const about = (req: Request, res: Response) => {
-  res.send("Página about");
+  res.render("main/about", { layout: "main" });
 }
 
 const bemvindo = (req: Request, res: Response) => {
