@@ -125,7 +125,7 @@ Projeto desenvolvido individualmente.
 
 | Membro | Responsabilidades |
 |--------|------------------|
-| [Maria Fernanda Sousa Cruz] | Desenvolvimento de todas as etapas do jogo, criação e edição dos assets visuais e sonoros |
+| Maria Fernanda Sousa Cruz | Desenvolvimento de todas as etapas do jogo, criação e edição dos assets visuais e sonoros |
 
 ---
 
