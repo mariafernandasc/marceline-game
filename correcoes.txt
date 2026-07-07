@@ -1,0 +1,1 @@
+Tudo ok, exceto a implementação do CRUD de Majors.
